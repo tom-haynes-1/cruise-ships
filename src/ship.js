@@ -1,25 +1,19 @@
-const startingPort = 'Dover';
+const currentPort = 'Dover';
+
 
 class Ship {
-    constructor(name) {
-        this.name = name;
-        this.startingPort = startingPort;
+    constructor(port) {
+        this.currentPort = port;
     }
 
     setSail() {
-        this.startingPort = null;
+        this.currentPort = null;
+    }
+
+    dock(port) {
+        this.currentPort = port;
     }
 };
-
-// function Ship(name) {
-//     this.name = name;
-//     this.startingPort = startingPort;
-
-// };
-
-// Ship.prototype.setSail = function() {
-//     this.startingPort = null;
-// };
 
 
 module.exports = Ship;
