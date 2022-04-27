@@ -22,7 +22,7 @@ describe("Port constructor", () => {
     });
 
     it('Port object can add a ship', () => {
-        const ship = {};
+        const ship = jest.fn();
 
         dover.addShip(ship);
 
@@ -30,8 +30,8 @@ describe("Port constructor", () => {
     });
 
     it('Port object can remove a ship', () => {
-        const titanic = {};
-        const queenMary = {};
+        const titanic = jest.fn();
+        const queenMary = jest.fn();
 
         dover.addShip(titanic);
         dover.addShip(queenMary);
