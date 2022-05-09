@@ -5,17 +5,30 @@ const Itinerary = require('../src/itinerary.js');
 describe('Ship', () => {
     describe('Ship with ports and an itinerary', () => {
 
-        let ship;
         let dover; 
         let calais;
-        let itinerary;
-
+        
         beforeEach(() => {
-            dover = new Port('Dover');
-            calais = new Port('Calais');
-            itinerary = new Itinerary([dover, calais]);
+            dover = {
+                addShip: jest.fn(),
+                removeShip: jest.fn(),
+                name: 'Dover',
+                ships: []
+            };
+
+            calais = {
+                addShip: jest.fn(),
+                removeShip: jest.fn(),
+                name: 'Calais',
+                ships: []
+            };
+
+            itinerary = {ports: [dover, calais]};
             ship = new Ship(itinerary);
-    
+        });
+
+        it('Ship can be instantiated', () => {
+
             expect(ship).toBeInstanceOf(Object);
         });
     
@@ -29,7 +42,7 @@ describe('Ship', () => {
             ship.setSail();
     
             expect(ship.currentPort).toBeFalsy();
-            expect(dover.ships).not.toContain(ship);
+            expect(dover.removeShip).toHaveBeenCalledWith(ship);
         });
     
         it('Ship can dock at a different port', () => {
@@ -38,23 +51,23 @@ describe('Ship', () => {
             ship.dock();
     
             expect(ship.currentPort).toBe(calais);
-            expect(calais.ships).toContain(ship);
+            expect(calais.addShip).toHaveBeenCalledWith(ship);
     
         });
     
-        it('Ship can\'t set sail further than its itinerary', () => {
+        it('Ship gets added to the Port object upon instantiation', () => {
     
+            expect(dover.addShip).toHaveBeenCalledWith(ship);
+            
+            });
+
+        it('Ship can\'t set sail further than its itinerary', () => {
+
             ship.setSail();
             ship.dock();
     
             expect(() => ship.setSail()).toThrowError('End of itinerary reached');
     
-        }); 
-    
-        it('Ship gets added to the Port object upon instantiation', () => {
-    
-            expect(dover.ships).toContain(ship);
-            
-            });
+            }); 
         });
     });
